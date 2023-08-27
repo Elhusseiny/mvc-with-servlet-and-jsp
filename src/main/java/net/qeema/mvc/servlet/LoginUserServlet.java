@@ -1,18 +1,16 @@
 package net.qeema.mvc.servlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import net.qeema.mvc.dao.UserDao;
 import net.qeema.mvc.entity.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
-//@WebServlet(name = "saveUser", value = "/saveUser")
-public class SaveUserServlet extends HttpServlet {
+public class LoginUserServlet extends HttpServlet {
     /*
     Model: The backend that contains all the data logic.
     View: The frontend or graphical user interface (GUI).
@@ -22,16 +20,16 @@ public class SaveUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+            throws IOException {
+
         String username = request.getParameter("username");
         String email = request.getParameter("email");
+        User user = new User(username,email);
+
         try {
-            User user = new User(username , email) ;
-            UserDao.addUser(user);
-            List<User> users =  UserDao.getAllUsers();
-            request.setAttribute("users" , users);
-            request.getRequestDispatcher("/list-user.jsp").forward(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("logged-in" , UserDao.userExists(user));
+            response.sendRedirect("users/addUser");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

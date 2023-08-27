@@ -13,7 +13,7 @@ public class UserDao {
         try {
             // returns the class object
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mvc?useSSL=false" , "root" , "root" );
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mvc?useSSL=false", "root", "root");
         } catch (Exception message) {
             System.out.println(message);
         }
@@ -41,6 +41,30 @@ public class UserDao {
         // close the database connection
         connect.close();
         return result;
+    }
+
+
+    public static Boolean userExists(User user) throws SQLException {
+        Connection connect = UserDao.connectDB();
+        
+        PreparedStatement preparedStatement
+                = connect.prepareStatement(
+                "SELECT * from user WHERE username = ? and email = ?");
+
+        // set the parameter to the given Java String value
+        preparedStatement.setString(1, user.getUsername());
+        preparedStatement.setString(2, user.getEmail());
+
+        ResultSet rs = preparedStatement.executeQuery();
+
+
+        if (rs.next()) {
+            connect.close();
+            return true; // there is a record
+        } else {
+            connect.close();
+            return false; // there is no record
+        }
     }
 
     public static int updateUser(User user)

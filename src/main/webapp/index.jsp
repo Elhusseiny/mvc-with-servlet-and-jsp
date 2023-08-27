@@ -53,7 +53,7 @@
 <div class="bgimg">
     <div class="middle">
         <h1>Welcome to our site</h1>
-        <h3><a href="addUser">click here to add users </a></h3>
+        <h3><a href="users/addUser">click here to add users </a></h3>
     </div>
 </div>
 

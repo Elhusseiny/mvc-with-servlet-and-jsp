@@ -4,13 +4,23 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
+
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>net.qeema.mvc.filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/users/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>AddUserServlet</servlet-name>
         <servlet-class>net.qeema.mvc.servlet.AddUserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddUserServlet</servlet-name>
-        <url-pattern>/addUser</url-pattern>
+        <url-pattern>/users/addUser</url-pattern>
     </servlet-mapping>
 
 
@@ -21,7 +31,16 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>SaveUserServlet</servlet-name>
-        <url-pattern>/saveUser</url-pattern>
+        <url-pattern>/users/saveUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>net.qeema.mvc.servlet.LoginUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
 
